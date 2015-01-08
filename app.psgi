@@ -117,6 +117,8 @@ my $app = sub {
 		
 		eval {
 			die "Busy: already speaking" if $speaker->is_playing();
+
+			$words = decode_entities($words);
 			
 			return if egg($words, $vol);
 
