@@ -59,13 +59,15 @@ my $so_pitch  = select_option('pitch',  50, [ Bass => 1, Mid => 50, Treble => 99
 my $so_rate   = select_option('rate',  170, [ Slow => 100, Normal => 170, Fast => 230 ]);
 my $so_range  = select_option('range',  50, [ Monotone => 1, Regular => 50, 'Extra tone' => 99 ]);
 
+my $broken_voices = qr{-test|Mandarin};
+my $broken_types  = qr{^mb/};
 my $voices = [
 	map {
 		my $gender = $_->{gender} == 2 ? 'F' : 'M';
 		("$_->{name} ($gender)", $_->{name})
 	} grep {
-		$_->{name} !~ m{-test|Mandarin}
-		&& $_->{identifier} !~ m{^mb/}
+		$_->{name} !~ /$broken_voices/
+		&& $_->{identifier} !~ /$broken_types/
 	} sort {
 		$a->{name} cmp $b->{name}
 	} @{espeak_ListVoices({})}
